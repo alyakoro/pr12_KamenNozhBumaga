@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.navigation.fragment.findNavController
 import com.korobeynikova.pr12_kamennozhbumaga.databinding.FragmentStartBinding
+import kotlin.random.Random
 
 class Start : Fragment() {
 
@@ -31,6 +32,5 @@ class Start : Fragment() {
 
         binding.button.setOnClickListener { controller.navigate(R.id.game) }
         binding.button2.setOnClickListener { controller.navigate(R.id.rules) }
-        
         }
 }
