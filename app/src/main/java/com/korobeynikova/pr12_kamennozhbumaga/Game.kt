@@ -15,6 +15,8 @@ import kotlin.random.Random
 class Game : Fragment() {
 
     private lateinit var binding: FragmentGameBinding
+    private lateinit var user: ImageView
+    private lateinit var comp: ImageView
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -31,19 +33,30 @@ class Game : Fragment() {
         binding.noBtn.isEnabled = false
 
         val exit = view.findViewById<ImageView>(R.id.exitBtn)
-        val user = view.findViewById<ImageView>(R.id.userView)
-        val comp = view.findViewById<ImageView>(R.id.compView)
+        user = view.findViewById(R.id.userView)
+        comp = view.findViewById(R.id.compView)
 
         val controller = findNavController()
         exit.setOnClickListener { controller.navigate(R.id.start2) }
 
-        val userChoiceId = view.id
+        binding.kBnt.setOnClickListener { userGo(0) }
+        binding.bBtn.setOnClickListener { userGo(1) }
+        binding.nBtn.setOnClickListener { userGo(2) }
+        binding.yBtn.setOnClickListener { userGo(3) }
+        binding.sBtn.setOnClickListener { userGo(4) }
+
+        binding.yesBnt.setOnClickListener { controller.navigate(R.id.start2) }
+        binding.noBtn.setOnClickListener { controller.navigate(R.id.start2) }
+        binding.nyBtn.setOnClickListener { controller.navigate(R.id.start2) }
+    }
+
+    private fun userGo(userChoiceId: Int){
         val userChoiceImage = when (userChoiceId) {
-            R.id.kBnt -> R.drawable.rock
-            R.id.bBtn -> R.drawable.paper
-            R.id.nBtn -> R.drawable.scissors
-            R.id.yBtn -> R.drawable.lizard
-            R.id.sBtn -> R.drawable.spock
+            0 -> R.drawable.rock
+            1 -> R.drawable.paper
+            2 -> R.drawable.scissors
+            3 -> R.drawable.lizard
+            4 -> R.drawable.spock
             else -> throw IllegalArgumentException("Некорректный выбор")
         }
         user.setImageResource(userChoiceImage)
@@ -64,19 +77,32 @@ class Game : Fragment() {
 
     private fun determineWinner(userChoice: Int, computerChoice: Int) {
         val result = when (userChoice) {
-            R.id.kBnt -> if (computerChoice == 2 || computerChoice == 3) 1 else if (computerChoice == 1 || computerChoice == 4) 2 else 3
-            R.id.bBtn -> if (computerChoice == 0 || computerChoice == 4) 1 else if (computerChoice == 3) 2 else 3
-            R.id.nBtn -> if (computerChoice == 1 || computerChoice == 3) 1 else if (computerChoice == 4 || computerChoice == 0) 2 else 3
-            R.id.yBtn -> if (computerChoice == 4 || computerChoice == 1) 1 else if (computerChoice == 0 || computerChoice == 2) 2 else 3
-            R.id.sBtn -> if (computerChoice == 0 || computerChoice == 2) 1 else if (computerChoice == 1 || computerChoice == 3) 2 else 3
+            0 -> if (computerChoice == 2 || computerChoice == 3) 1 else if (computerChoice == 1 || computerChoice == 4) 2 else 3
+            1 -> if (computerChoice == 0 || computerChoice == 4) 1 else if (computerChoice == 3) 2 else 3
+            2 -> if (computerChoice == 1 || computerChoice == 3) 1 else if (computerChoice == 4 || computerChoice == 0) 2 else 3
+            3 -> if (computerChoice == 4 || computerChoice == 1) 1 else if (computerChoice == 0 || computerChoice == 2) 2 else 3
+            4 -> if (computerChoice == 0 || computerChoice == 2) 1 else if (computerChoice == 1 || computerChoice == 3) 2 else 3
             else -> throw IllegalArgumentException("Некорректный выбор")
         }
 
-        if (result == 1) {binding.yesBnt.isEnabled = true} else if (result == 2) {binding.noBtn.isEnabled = true} else {
+        if (result == 1) {
+            Toast.makeText(requireContext(),
+                "Вы выиграли!", Toast.LENGTH_SHORT).show()
+            binding.nyBtn.isEnabled = false
+            binding.yesBnt.isEnabled = true
+            binding.noBtn.isEnabled = false
+        } else if (result == 2) {
+            Toast.makeText(requireContext(),
+                "Вы проиграли!", Toast.LENGTH_SHORT).show()
+            binding.nyBtn.isEnabled = false
+            binding.noBtn.isEnabled = true
+            binding.yesBnt.isEnabled = false
+        } else {
             Toast.makeText(requireContext(),
                 "Ничья", Toast.LENGTH_SHORT).show()
-            val controller = findNavController()
-            controller.navigate(R.id.start2)
+            binding.nyBtn.isEnabled = true
+            binding.noBtn.isEnabled = false
+            binding.yesBnt.isEnabled = false
         }
     }
 }

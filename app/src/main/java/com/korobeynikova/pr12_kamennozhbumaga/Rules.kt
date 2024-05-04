@@ -26,7 +26,7 @@ class Rules : Fragment() {
 
         val exit = view.findViewById<ImageView>(R.id.exitBtn)
         val controller = findNavController()
-        exit.setOnClickListener { controller.navigate(R.id.game) }
+        exit.setOnClickListener { controller.navigate(R.id.start2) }
 
     }
 }

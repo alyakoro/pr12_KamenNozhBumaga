@@ -24,12 +24,7 @@ class Start : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        val exit = view.findViewById<ImageView>(R.id.exitBtn)
-
         val controller = findNavController()
-        exit.setOnClickListener { controller.navigate(R.id.game) }
-
         binding.button.setOnClickListener { controller.navigate(R.id.game) }
         binding.button2.setOnClickListener { controller.navigate(R.id.rules) }
         }
